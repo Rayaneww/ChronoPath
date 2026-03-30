@@ -1,0 +1,219 @@
+<h2>Style de la carte flottante</h2>
+<p class="subtitle">Même layout B + vert — quelle personnalité visuelle ?</p>
+
+<style>
+  .preview-row { display: flex; gap: 28px; flex-wrap: wrap; justify-content: center; margin: 24px 0; }
+  .phone-frame {
+    width: 175px; background: #fff; border-radius: 36px;
+    border: 3px solid #1e293b; overflow: hidden;
+    box-shadow: 0 10px 36px rgba(0,0,0,0.18);
+    aspect-ratio: 9/19; display: flex; flex-direction: column;
+    cursor: pointer;
+  }
+  .map-bg { background: linear-gradient(145deg,#bbf7d0 0%,#86efac 50%,#4ade80 100%); position: relative; flex: 1; }
+  .map-route { position: absolute; top:25%; left:20%; width:60%; height:50%; border: 2.5px solid #15803d; border-radius: 50%; opacity: 0.7; }
+  .map-dot { position: absolute; top:48%; left:48%; width:10px; height:10px; background:#16a34a; border-radius:50%; border:2px solid white; box-shadow:0 0 0 3px rgba(22,163,74,0.3); }
+  .tab-bar { display: flex; background: #fff; }
+  .tab { flex:1; text-align:center; padding:6px 2px 5px; font-size:7px; color:#94a3b8; }
+  .tab.act { color:#16a34a; }
+  .tab-icon { font-size:13px; display:block; }
+
+  /* Style A: Soft Rounded */
+  .card-soft {
+    position: absolute; bottom: 14px; left: 10px; right: 10px;
+    background: white; border-radius: 24px; padding: 14px;
+    box-shadow: 0 -2px 24px rgba(0,0,0,0.10), 0 8px 24px rgba(0,0,0,0.08);
+  }
+  .soft-pills { display:flex; gap:5px; margin-bottom:9px; }
+  .s-pill { flex:1; background:#f0fdf4; color:#16a34a; border-radius:20px; padding:4px 0; font-size:8px; font-weight:600; text-align:center; }
+  .s-pill.act { background:#16a34a; color:white; }
+  .soft-stats { display:flex; gap:5px; margin-bottom:9px; }
+  .s-stat { flex:1; background:#f8fafc; border-radius:12px; padding:5px; text-align:center; }
+  .s-val { font-size:11px; font-weight:700; color:#1e293b; display:block; }
+  .s-lbl { font-size:7px; color:#94a3b8; }
+  .s-btn { background:#16a34a; color:white; border-radius:14px; text-align:center; padding:8px; font-size:9px; font-weight:700; }
+  .handle { width:28px; height:3px; background:#e2e8f0; border-radius:99px; margin:0 auto 10px; }
+
+  /* Style B: Bold/Flat */
+  .card-bold {
+    position: absolute; bottom: 14px; left: 10px; right: 10px;
+    background: #0f172a; border-radius: 16px; padding: 12px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+  }
+  .b-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; }
+  .b-title { font-size:9px; font-weight:800; color:white; letter-spacing:0.5px; text-transform:uppercase; }
+  .b-close { width:16px; height:16px; background:rgba(255,255,255,0.1); border-radius:50%; font-size:8px; color:#94a3b8; display:flex; align-items:center; justify-content:center; }
+  .b-pills { display:flex; gap:4px; margin-bottom:8px; }
+  .b-pill { flex:1; border:1px solid rgba(255,255,255,0.1); color:#94a3b8; border-radius:6px; padding:4px 0; font-size:8px; text-align:center; }
+  .b-pill.act { border-color:#16a34a; color:#4ade80; }
+  .b-stats { display:flex; gap:4px; margin-bottom:8px; }
+  .b-stat { flex:1; background:rgba(255,255,255,0.06); border-radius:6px; padding:4px; text-align:center; }
+  .b-val { font-size:11px; font-weight:700; color:white; display:block; }
+  .b-lbl { font-size:7px; color:#64748b; }
+  .b-btn { background:#16a34a; color:white; border-radius:8px; text-align:center; padding:8px; font-size:9px; font-weight:800; letter-spacing:0.3px; }
+
+  /* Style C: Glass/Frosted */
+  .card-glass {
+    position: absolute; bottom: 14px; left: 10px; right: 10px;
+    background: rgba(255,255,255,0.88);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,0.9);
+    border-radius: 20px; padding: 12px;
+    box-shadow: 0 8px 32px rgba(22,163,74,0.12), 0 2px 8px rgba(0,0,0,0.08);
+  }
+  .g-accent { display:flex; align-items:center; gap:5px; margin-bottom:8px; }
+  .g-dot { width:6px; height:6px; background:#16a34a; border-radius:50%; }
+  .g-title { font-size:9px; font-weight:700; color:#1e293b; }
+  .g-pills { display:flex; gap:4px; margin-bottom:7px; }
+  .g-pill { flex:1; background:rgba(22,163,74,0.08); color:#15803d; border-radius:10px; padding:4px 0; font-size:8px; font-weight:600; text-align:center; }
+  .g-pill.act { background:#16a34a; color:white; }
+  .g-stats { display:flex; gap:4px; margin-bottom:8px; }
+  .g-stat { flex:1; background:rgba(255,255,255,0.7); border-radius:10px; padding:4px; text-align:center; border:1px solid rgba(22,163,74,0.1); }
+  .g-val { font-size:11px; font-weight:700; color:#1e293b; display:block; }
+  .g-lbl { font-size:7px; color:#64748b; }
+  .g-btn { background:linear-gradient(135deg,#16a34a,#15803d); color:white; border-radius:12px; text-align:center; padding:8px; font-size:9px; font-weight:700; box-shadow:0 3px 10px rgba(22,163,74,0.35); }
+</style>
+
+<div class="preview-row">
+
+  <!-- A: Soft Rounded -->
+  <div style="text-align:center">
+    <div class="phone-frame" onclick="selectCard('a')">
+      <div class="map-bg" style="padding-top:18px;">
+        <div style="margin:0 8px;background:white;border-radius:10px;padding:4px 10px;display:inline-flex;align-items:center;gap:5px;">
+          <span style="font-size:9px;font-weight:800;color:#1e293b;">ChronoPath</span>
+        </div>
+        <div class="map-route"></div>
+        <div class="map-dot"></div>
+        <div class="card-soft">
+          <div class="handle"></div>
+          <div class="soft-pills">
+            <div class="s-pill act">🏃 Course</div>
+            <div class="s-pill">🚶 Marche</div>
+            <div class="s-pill">🚴 Vélo</div>
+          </div>
+          <div class="soft-stats">
+            <div class="s-stat"><span class="s-val">30</span><span class="s-lbl">min</span></div>
+            <div class="s-stat"><span class="s-val">10</span><span class="s-lbl">km/h</span></div>
+            <div class="s-stat"><span class="s-val">~5km</span><span class="s-lbl">cible</span></div>
+          </div>
+          <div class="s-btn">Générer la boucle</div>
+        </div>
+      </div>
+      <div class="tab-bar">
+        <div class="tab act"><span class="tab-icon">🗺️</span>Carte</div>
+        <div class="tab"><span class="tab-icon">♥</span>Favoris</div>
+        <div class="tab"><span class="tab-icon">👤</span>Profil</div>
+      </div>
+    </div>
+    <p style="margin-top:10px;font-size:12px;font-weight:600;color:#1e293b;">A — Soft & Rounded</p>
+    <p style="font-size:11px;color:#64748b;">Fond blanc, coins très arrondis,<br>ambiance douce et friendly</p>
+  </div>
+
+  <!-- B: Bold Dark -->
+  <div style="text-align:center">
+    <div class="phone-frame" onclick="selectCard('b')">
+      <div class="map-bg" style="padding-top:18px;flex:1;position:relative;">
+        <div style="margin:0 8px;background:rgba(255,255,255,0.9);border-radius:10px;padding:4px 10px;display:inline-flex;align-items:center;gap:5px;">
+          <span style="font-size:9px;font-weight:800;color:#0f172a;">ChronoPath</span>
+        </div>
+        <div class="map-route"></div>
+        <div class="map-dot"></div>
+        <div class="card-bold">
+          <div class="b-header">
+            <span class="b-title">Nouvelle boucle</span>
+          </div>
+          <div class="b-pills">
+            <div class="b-pill act">🏃 Course</div>
+            <div class="b-pill">🚶 Marche</div>
+            <div class="b-pill">🚴 Vélo</div>
+          </div>
+          <div class="b-stats">
+            <div class="b-stat"><span class="b-val">30</span><span class="b-lbl">min</span></div>
+            <div class="b-stat"><span class="b-val">10</span><span class="b-lbl">km/h</span></div>
+            <div class="b-stat"><span class="b-val">~5km</span><span class="b-lbl">cible</span></div>
+          </div>
+          <div class="b-btn">Générer la boucle ▶</div>
+        </div>
+      </div>
+      <div class="tab-bar">
+        <div class="tab act" style="color:#16a34a;"><span class="tab-icon">🗺️</span>Carte</div>
+        <div class="tab"><span class="tab-icon">♥</span>Favoris</div>
+        <div class="tab"><span class="tab-icon">👤</span>Profil</div>
+      </div>
+    </div>
+    <p style="margin-top:10px;font-size:12px;font-weight:600;color:#1e293b;">B — Bold Dark</p>
+    <p style="font-size:11px;color:#64748b;">Carte sombre sur fond vert,<br>contraste fort, look premium</p>
+  </div>
+
+  <!-- C: Glass -->
+  <div style="text-align:center">
+    <div class="phone-frame" onclick="selectCard('c')">
+      <div class="map-bg" style="padding-top:18px;flex:1;position:relative;">
+        <div style="margin:0 8px;background:rgba(255,255,255,0.85);border-radius:10px;padding:4px 10px;display:inline-flex;align-items:center;gap:5px;">
+          <span style="font-size:9px;font-weight:800;color:#14532d;">ChronoPath</span>
+        </div>
+        <div class="map-route"></div>
+        <div class="map-dot"></div>
+        <div class="card-glass">
+          <div class="g-accent">
+            <div class="g-dot"></div>
+            <span class="g-title">Nouvelle boucle</span>
+          </div>
+          <div class="g-pills">
+            <div class="g-pill act">🏃 Course</div>
+            <div class="g-pill">🚶 Marche</div>
+            <div class="g-pill">🚴 Vélo</div>
+          </div>
+          <div class="g-stats">
+            <div class="g-stat"><span class="g-val">30</span><span class="g-lbl">min</span></div>
+            <div class="g-stat"><span class="g-val">10</span><span class="g-lbl">km/h</span></div>
+            <div class="g-stat"><span class="g-val">~5km</span><span class="g-lbl">cible</span></div>
+          </div>
+          <div class="g-btn">Générer la boucle</div>
+        </div>
+      </div>
+      <div class="tab-bar">
+        <div class="tab act" style="color:#16a34a;"><span class="tab-icon">🗺️</span>Carte</div>
+        <div class="tab"><span class="tab-icon">♥</span>Favoris</div>
+        <div class="tab"><span class="tab-icon">👤</span>Profil</div>
+      </div>
+    </div>
+    <p style="margin-top:10px;font-size:12px;font-weight:600;color:#1e293b;">C — Glass / Frosted</p>
+    <p style="font-size:11px;color:#64748b;">Effet verre dépoli,<br>carte semi-transparente</p>
+  </div>
+
+</div>
+
+<div class="options" style="max-width:520px;margin:0 auto;">
+  <div class="option" data-choice="a" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Soft & Rounded <span style="font-size:11px;color:#16a34a;font-weight:600;">— Recommandé</span></h3>
+      <p>Blanc pur, coins arrondis, style friendly. Le plus lisible en extérieur sous soleil. Compatible tous navigateurs.</p>
+    </div>
+  </div>
+  <div class="option" data-choice="b" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Bold Dark</h3>
+      <p>Carte sombre sur la map verte, contraste maximal. Look premium app fitness. Peut être difficile à lire en plein soleil.</p>
+    </div>
+  </div>
+  <div class="option" data-choice="c" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>Glass / Frosted</h3>
+      <p>Effet frosted glass, carte semi-transparente sur la map. Très moderne, mais nécessite backdrop-filter (support partiel).</p>
+    </div>
+  </div>
+</div>
+
+<script>
+function selectCard(letter) {
+  document.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+  const opt = document.querySelector(`.option[data-choice="${letter}"]`);
+  if (opt) { opt.classList.add('selected'); opt.click(); }
+}
+</script>

@@ -1,0 +1,141 @@
+<h2>Palette de couleurs</h2>
+<p class="subtitle">Fond blanc, tons sobres — quelle teinte d'accent ?</p>
+
+<style>
+  .palettes { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; margin: 24px 0; }
+  .pal-card {
+    width: 200px; background: white; border-radius: 20px;
+    overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.10);
+    cursor: pointer; border: 2px solid transparent; transition: all .2s;
+  }
+  .pal-card:hover { transform: translateY(-3px); box-shadow: 0 8px 28px rgba(0,0,0,0.14); }
+  .pal-hero { height: 80px; display: flex; }
+  .pal-swatch { flex: 1; }
+  .pal-body { padding: 14px 16px; }
+  .pal-name { font-size: 13px; font-weight: 700; color: #1e293b; margin-bottom: 4px; }
+  .pal-desc { font-size: 11px; color: #64748b; line-height: 1.4; }
+  .pal-ui { margin-top: 12px; display: flex; flex-direction: column; gap: 6px; }
+  .ui-btn { border-radius: 10px; padding: 7px 12px; font-size: 11px; font-weight: 700; text-align: center; }
+  .ui-badge { display: inline-block; border-radius: 20px; padding: 3px 10px; font-size: 10px; font-weight: 600; }
+  .ui-tag { display: inline-block; border-radius: 8px; padding: 3px 8px; font-size: 10px; background: #f1f5f9; color: #475569; margin-right: 4px; }
+  .ref { font-size: 10px; color: #94a3b8; margin-top: 6px; }
+</style>
+
+<div class="palettes">
+
+  <!-- A: Strava Orange -->
+  <div class="pal-card" onclick="toggleSelect(this)" data-choice="a">
+    <div class="pal-hero">
+      <div class="pal-swatch" style="background:#FC4C02;"></div>
+      <div class="pal-swatch" style="background:#1e293b;"></div>
+      <div class="pal-swatch" style="background:#f8fafc;"></div>
+    </div>
+    <div class="pal-body">
+      <div class="pal-name">Strava Orange</div>
+      <div class="pal-desc">Signature sport, énergie et action. Reconnaissable instantanément.</div>
+      <div class="pal-ui">
+        <div class="ui-btn" style="background:#FC4C02;color:white;">Générer la boucle</div>
+        <div>
+          <span class="ui-badge" style="background:#FC4C02;color:white;">🏃 Course</span>
+          <span class="ui-tag">30 min</span>
+        </div>
+      </div>
+      <div class="ref">→ Strava, Komoot</div>
+    </div>
+  </div>
+
+  <!-- B: Electric Blue -->
+  <div class="pal-card" onclick="toggleSelect(this)" data-choice="b">
+    <div class="pal-hero">
+      <div class="pal-swatch" style="background:#2563eb;"></div>
+      <div class="pal-swatch" style="background:#0f172a;"></div>
+      <div class="pal-swatch" style="background:#f8fafc;"></div>
+    </div>
+    <div class="pal-body">
+      <div class="pal-name">Electric Blue</div>
+      <div class="pal-desc">Tech, précis, navigation. Proche des apps cartographiques premium.</div>
+      <div class="pal-ui">
+        <div class="ui-btn" style="background:#2563eb;color:white;">Générer la boucle</div>
+        <div>
+          <span class="ui-badge" style="background:#2563eb;color:white;">🏃 Course</span>
+          <span class="ui-tag">30 min</span>
+        </div>
+      </div>
+      <div class="ref">→ Google Maps, Waze</div>
+    </div>
+  </div>
+
+  <!-- C: Forest Green -->
+  <div class="pal-card" onclick="toggleSelect(this)" data-choice="c">
+    <div class="pal-hero">
+      <div class="pal-swatch" style="background:#16a34a;"></div>
+      <div class="pal-swatch" style="background:#14532d;"></div>
+      <div class="pal-swatch" style="background:#f0fdf4;"></div>
+    </div>
+    <div class="pal-body">
+      <div class="pal-name">Forest Green</div>
+      <div class="pal-desc">Nature, trails, outdoor. Évoque la course en forêt et les chemins verts.</div>
+      <div class="pal-ui">
+        <div class="ui-btn" style="background:#16a34a;color:white;">Générer la boucle</div>
+        <div>
+          <span class="ui-badge" style="background:#16a34a;color:white;">🏃 Course</span>
+          <span class="ui-tag">30 min</span>
+        </div>
+      </div>
+      <div class="ref">→ AllTrails, Garmin Connect</div>
+    </div>
+  </div>
+
+  <!-- D: Violet Sport -->
+  <div class="pal-card" onclick="toggleSelect(this)" data-choice="d">
+    <div class="pal-hero">
+      <div class="pal-swatch" style="background:#7c3aed;"></div>
+      <div class="pal-swatch" style="background:#1e1b4b;"></div>
+      <div class="pal-swatch" style="background:#f8fafc;"></div>
+    </div>
+    <div class="pal-body">
+      <div class="pal-name">Violet Sport</div>
+      <div class="pal-desc">Moderne, distinct, mémorable. Se démarque de tous les concurrents.</div>
+      <div class="pal-ui">
+        <div class="ui-btn" style="background:#7c3aed;color:white;">Générer la boucle</div>
+        <div>
+          <span class="ui-badge" style="background:#7c3aed;color:white;">🏃 Course</span>
+          <span class="ui-tag">30 min</span>
+        </div>
+      </div>
+      <div class="ref">→ Nike Run Club</div>
+    </div>
+  </div>
+
+</div>
+
+<div class="options" style="max-width:560px;margin:0 auto;">
+  <div class="option" data-choice="a" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Strava Orange <span style="font-size:11px;color:#FC4C02;font-weight:600;">— Recommandé</span></h3>
+      <p>#FC4C02 — Associé sport & performance, énergie immédiate, cohérent avec l'inspiration Strava.</p>
+    </div>
+  </div>
+  <div class="option" data-choice="b" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Electric Blue</h3>
+      <p>#2563eb — Sérieux, tech, navigation. Très lisible sur carte OSM.</p>
+    </div>
+  </div>
+  <div class="option" data-choice="c" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>Forest Green</h3>
+      <p>#16a34a — Nature & outdoor. Cohérent avec la course et le vélo en plein air.</p>
+    </div>
+  </div>
+  <div class="option" data-choice="d" onclick="toggleSelect(this)">
+    <div class="letter">D</div>
+    <div class="content">
+      <h3>Violet Sport</h3>
+      <p>#7c3aed — Identité forte et unique, moderne. Se distingue de tous les concurrents.</p>
+    </div>
+  </div>
+</div>

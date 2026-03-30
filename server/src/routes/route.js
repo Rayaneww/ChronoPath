@@ -35,7 +35,7 @@ router.post(
 
       for (let i = 0; i < MAX_ITERATIONS; i++) {
         // waypoints : départ → 4 points en cercle → retour départ
-        const circlePoints = generateWaypoints(lat, lng, radius, 4);
+        const circlePoints = generateWaypoints(lat, lng, radius, 3);
         const waypoints = [{ lat, lng }, ...circlePoints, { lat, lng }];
 
         route = await getRoute({ waypoints, profile: activite, apiKey });

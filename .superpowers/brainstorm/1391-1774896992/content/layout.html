@@ -1,0 +1,203 @@
+<h2>ChronoPath — Layout structure</h2>
+<p class="subtitle">Mobile-first, Strava-inspired. Which layout pattern fits best?</p>
+
+<style>
+  .phone-grid { display: flex; gap: 24px; flex-wrap: wrap; justify-content: center; margin: 24px 0; }
+  .phone-frame {
+    width: 180px; background: #fff; border-radius: 32px;
+    border: 3px solid #1e293b; overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+    position: relative; aspect-ratio: 9/19;
+    display: flex; flex-direction: column;
+  }
+  .phone-notch {
+    height: 18px; background: #1e293b; border-radius: 0 0 12px 12px;
+    margin: 0 auto; width: 60px; position: absolute; top: 0; left: 50%; transform: translateX(-50%); z-index: 10;
+  }
+  .phone-screen { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+  .map-fill { background: linear-gradient(160deg, #c8e6c9 0%, #a5d6a7 40%, #81c784 100%); position: relative; }
+  .map-roads { position: absolute; inset: 0; opacity: 0.3; }
+  .route-line { position: absolute; top: 30%; left: 20%; width: 60%; height: 40%; border: 2px dashed #FC4C02; border-radius: 50%; }
+  .bottom-sheet {
+    background: #fff; border-radius: 20px 20px 0 0;
+    padding: 12px 14px 10px; flex-shrink: 0;
+    box-shadow: 0 -4px 20px rgba(0,0,0,0.12);
+  }
+  .sheet-handle { width: 32px; height: 3px; background: #cbd5e1; border-radius: 99px; margin: 0 auto 10px; }
+  .mini-pill { display: flex; gap: 5px; margin-bottom: 8px; }
+  .pill { background: #f1f5f9; border-radius: 20px; padding: 3px 8px; font-size: 9px; color: #475569; }
+  .pill.active { background: #FC4C02; color: white; }
+  .cta-btn { background: #FC4C02; color: white; border-radius: 10px; text-align: center; padding: 8px; font-size: 10px; font-weight: 700; }
+  .tab-bar { display: flex; background: #fff; border-top: 1px solid #f1f5f9; }
+  .tab { flex: 1; text-align: center; padding: 6px 2px 4px; font-size: 7px; color: #94a3b8; }
+  .tab.active { color: #FC4C02; }
+  .tab-icon { font-size: 14px; display: block; }
+  .top-bar { background: white; padding: 8px 12px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #f1f5f9; }
+  .top-logo { font-size: 10px; font-weight: 800; color: #1e293b; }
+  .top-avatar { width: 18px; height: 18px; background: #FC4C02; border-radius: 50%; }
+  .side-panel-layout { display: flex; flex: 1; overflow: hidden; }
+  .side-panel { width: 55px; background: #fff; border-right: 1px solid #f1f5f9; display: flex; flex-direction: column; align-items: center; padding: 8px 0; gap: 10px; }
+  .side-icon { width: 28px; height: 28px; border-radius: 8px; background: #f1f5f9; display: flex; align-items: center; justify-content: center; font-size: 12px; }
+  .side-icon.active { background: #FC4C02; }
+  .floating-card { position: absolute; bottom: 16px; left: 10px; right: 10px; background: white; border-radius: 16px; padding: 10px 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.15); }
+  .float-title { font-size: 8px; font-weight: 700; color: #1e293b; margin-bottom: 4px; }
+  .float-row { display: flex; gap: 5px; }
+  .float-chip { background: #f1f5f9; border-radius: 8px; padding: 3px 6px; font-size: 7px; flex: 1; text-align: center; }
+  .float-chip.orange { background: #fff7f5; color: #FC4C02; }
+  .stats-row { display: flex; gap: 4px; margin: 5px 0; }
+  .stat-box { flex: 1; background: #f8fafc; border-radius: 6px; padding: 3px; text-align: center; font-size: 7px; color: #64748b; }
+  .stat-val { font-size: 9px; font-weight: 700; color: #1e293b; display: block; }
+  .card-label { font-size: 8px; font-weight: 600; color: #1e293b; }
+</style>
+
+<div class="phone-grid">
+
+  <!-- Option A: Bottom Sheet -->
+  <div style="text-align:center">
+    <div class="phone-frame" style="cursor:pointer" onclick="selectOption('A')">
+      <div class="phone-notch"></div>
+      <div class="phone-screen">
+        <div class="top-bar" style="padding-top:22px">
+          <span class="top-logo">ChronoPath</span>
+          <div class="top-avatar"></div>
+        </div>
+        <div class="map-fill" style="flex:1; position:relative;">
+          <div class="route-line"></div>
+          <div style="position:absolute;top:8px;left:8px;background:white;border-radius:8px;padding:3px 7px;font-size:8px;color:#1e293b;box-shadow:0 2px 8px rgba(0,0,0,0.1);">📍 Ma position</div>
+        </div>
+        <div class="bottom-sheet">
+          <div class="sheet-handle"></div>
+          <div class="mini-pill">
+            <span class="pill active">🏃 Course</span>
+            <span class="pill">🚶 Marche</span>
+            <span class="pill">🚴 Vélo</span>
+          </div>
+          <div class="stats-row">
+            <div class="stat-box"><span class="stat-val">30</span>min</div>
+            <div class="stat-box"><span class="stat-val">10</span>km/h</div>
+            <div class="stat-box"><span class="stat-val">~5</span>km</div>
+          </div>
+          <div class="cta-btn">Générer la boucle</div>
+        </div>
+        <div class="tab-bar">
+          <div class="tab active"><span class="tab-icon">🗺️</span>Carte</div>
+          <div class="tab"><span class="tab-icon">♥</span>Favoris</div>
+          <div class="tab"><span class="tab-icon">👤</span>Profil</div>
+        </div>
+      </div>
+    </div>
+    <p style="margin-top:10px;font-size:12px;font-weight:600;color:#1e293b;">A — Bottom Sheet</p>
+    <p style="font-size:11px;color:#64748b;">Map en plein écran,<br>panneau qui remonte</p>
+  </div>
+
+  <!-- Option B: Full-screen map + FAB -->
+  <div style="text-align:center">
+    <div class="phone-frame" style="cursor:pointer" onclick="selectOption('B')">
+      <div class="phone-notch"></div>
+      <div class="phone-screen">
+        <div class="map-fill" style="flex:1;position:relative;">
+          <div class="route-line"></div>
+          <!-- top overlay -->
+          <div style="position:absolute;top:22px;left:0;right:0;padding:8px 10px;display:flex;justify-content:space-between;align-items:center;">
+            <div style="background:white;border-radius:12px;padding:4px 10px;font-size:9px;font-weight:800;color:#1e293b;box-shadow:0 2px 8px rgba(0,0,0,0.12);">ChronoPath</div>
+            <div style="background:white;border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-size:12px;box-shadow:0 2px 8px rgba(0,0,0,0.12);">👤</div>
+          </div>
+          <!-- floating card -->
+          <div class="floating-card">
+            <div class="float-title">Nouvelle boucle</div>
+            <div class="float-row">
+              <div class="float-chip orange">🏃 Course</div>
+              <div class="float-chip">30 min</div>
+              <div class="float-chip">10 km/h</div>
+            </div>
+            <div style="margin-top:6px;background:#FC4C02;color:white;border-radius:10px;text-align:center;padding:7px;font-size:9px;font-weight:700;">Générer ▶</div>
+          </div>
+        </div>
+        <div class="tab-bar">
+          <div class="tab active"><span class="tab-icon">🗺️</span>Carte</div>
+          <div class="tab"><span class="tab-icon">♥</span>Favoris</div>
+          <div class="tab"><span class="tab-icon">👤</span>Profil</div>
+        </div>
+      </div>
+    </div>
+    <p style="margin-top:10px;font-size:12px;font-weight:600;color:#1e293b;">B — Floating Card</p>
+    <p style="font-size:11px;color:#64748b;">Map maximale,<br>carte flottante compacte</p>
+  </div>
+
+  <!-- Option C: Split/Feed -->
+  <div style="text-align:center">
+    <div class="phone-frame" style="cursor:pointer" onclick="selectOption('C')">
+      <div class="phone-notch"></div>
+      <div class="phone-screen">
+        <div class="top-bar" style="padding-top:22px;background:#1e293b;">
+          <span class="top-logo" style="color:white;">ChronoPath</span>
+          <div class="top-avatar"></div>
+        </div>
+        <div style="flex:1;overflow-y:auto;background:#f8fafc;padding:8px;">
+          <!-- activity selector -->
+          <div class="mini-pill" style="margin-bottom:8px;">
+            <span class="pill active">🏃 Course</span>
+            <span class="pill">🚶 Marche</span>
+            <span class="pill">🚴 Vélo</span>
+          </div>
+          <!-- map preview -->
+          <div class="map-fill" style="border-radius:14px;height:90px;position:relative;margin-bottom:8px;">
+            <div class="route-line" style="top:20%;left:15%;width:70%;height:60%;"></div>
+            <div style="position:absolute;bottom:6px;right:6px;background:white;border-radius:8px;padding:2px 6px;font-size:7px;color:#1e293b;">Zoom</div>
+          </div>
+          <div style="background:white;border-radius:12px;padding:8px;margin-bottom:8px;">
+            <div class="card-label" style="margin-bottom:5px;">Durée & Vitesse</div>
+            <div class="stats-row">
+              <div class="stat-box"><span class="stat-val">30'</span>durée</div>
+              <div class="stat-box"><span class="stat-val">10</span>km/h</div>
+              <div class="stat-box"><span class="stat-val">5km</span>cible</div>
+            </div>
+          </div>
+          <div class="cta-btn">Générer la boucle</div>
+        </div>
+        <div class="tab-bar">
+          <div class="tab active"><span class="tab-icon">🏠</span>Accueil</div>
+          <div class="tab"><span class="tab-icon">♥</span>Favoris</div>
+          <div class="tab"><span class="tab-icon">👤</span>Profil</div>
+        </div>
+      </div>
+    </div>
+    <p style="margin-top:10px;font-size:12px;font-weight:600;color:#1e293b;">C — Scroll/Feed</p>
+    <p style="font-size:11px;color:#64748b;">Carte compacte,<br>contrôles au premier plan</p>
+  </div>
+
+</div>
+
+<div class="options" style="max-width:520px;margin:0 auto;">
+  <div class="option" data-choice="a" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Bottom Sheet <span style="font-size:11px;color:#FC4C02;font-weight:600;">— Recommandé</span></h3>
+      <p>Map plein écran, panneau paramètres qui glisse depuis le bas. Pattern dominant sur Google Maps, Komoot, AllTrails.</p>
+    </div>
+  </div>
+  <div class="option" data-choice="b" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Floating Card</h3>
+      <p>Map encore plus immersive, mini-carte de paramètres toujours visible. Idéal si les utilisateurs veulent voir leur position en permanence.</p>
+    </div>
+  </div>
+  <div class="option" data-choice="c" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>Scroll / Feed</h3>
+      <p>Contrôles en haut, carte en aperçu. Plus proche d'une web app classique, moins immersif mais très lisible.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+function selectOption(letter) {
+  const map = {'A':'a','B':'b','C':'c'};
+  const choice = map[letter];
+  document.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+  const opt = document.querySelector(`.option[data-choice="${choice}"]`);
+  if (opt) { opt.classList.add('selected'); opt.click(); }
+}
+</script>
