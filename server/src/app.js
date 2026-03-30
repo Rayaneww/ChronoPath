@@ -3,6 +3,7 @@ const cors = require('cors');
 require('dotenv').config();
 
 const authRouter = require('./routes/auth');
+const routeRouter = require('./routes/route');
 
 const app = express();
 
@@ -11,5 +12,6 @@ app.use(express.json());
 
 app.get('/api/health', (req, res) => res.json({ status: 'ok' }));
 app.use('/api/auth', authRouter);
+app.use('/api/route', routeRouter);
 
 module.exports = app;
