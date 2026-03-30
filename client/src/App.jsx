@@ -3,6 +3,8 @@ import Map from './components/Map';
 import Panel from './components/Panel';
 import AuthModal from './components/AuthModal';
 import FavoritesList from './components/FavoritesList';
+import FloatingCard from './components/FloatingCard';
+import TabBar from './components/TabBar';
 import useGeolocation from './hooks/useGeolocation';
 import useAuth from './hooks/useAuth';
 import { generateRoute, getSavedRoutes, saveRoute, deleteRoute } from './api/routes';
@@ -12,13 +14,14 @@ export default function App() {
   const { position, error: geoError } = useGeolocation();
   const { user, login, register, logout } = useAuth();
 
-  const [route, setRoute] = useState(null);
-  const [routeParams, setRouteParams] = useState(null); // pour sauvegarder avec la bonne activite/duree
-  const [loading, setLoading] = useState(false);
-  const [routeError, setRouteError] = useState(null);
-  const [showAuth, setShowAuth] = useState(false);
-  const [showFavorites, setShowFavorites] = useState(false);
-  const [savedRoutes, setSavedRoutes] = useState([]);
+  const [route,        setRoute]        = useState(null);
+  const [routeParams,  setRouteParams]  = useState(null);
+  const [loading,      setLoading]      = useState(false);
+  const [routeError,   setRouteError]   = useState(null);
+  const [showAuth,     setShowAuth]     = useState(false);
+  const [savedRoutes,  setSavedRoutes]  = useState([]);
+  const [activeTab,    setActiveTab]    = useState('map');
+  const [showFavSheet, setShowFavSheet] = useState(false);
 
   async function handleGenerate(params) {
     if (!position) return;
@@ -39,10 +42,10 @@ export default function App() {
     if (!route || !routeParams) return;
     await saveRoute({
       activite: routeParams.activite,
-      duree: routeParams.duree,
+      duree:    routeParams.duree,
       distance: route.distanceKm,
       denivele: route.elevationGainM,
-      geojson: route.geojson
+      geojson:  route.geojson,
     });
   }
 
@@ -50,7 +53,19 @@ export default function App() {
     if (!user) { setShowAuth(true); return; }
     const routes = await getSavedRoutes();
     setSavedRoutes(routes);
-    setShowFavorites(true);
+    setShowFavSheet(true);
+  }
+
+  async function handleTabChange(tab) {
+    setActiveTab(tab);
+    if (tab === 'favorites') {
+      if (!user) { setShowAuth(true); setActiveTab('map'); return; }
+      const routes = await getSavedRoutes();
+      setSavedRoutes(routes);
+      setShowFavSheet(true);
+    } else if (tab === 'profile') {
+      if (!user) { setShowAuth(true); setActiveTab('map'); }
+    }
   }
 
   async function handleAuth(mode, email, password) {
@@ -65,58 +80,79 @@ export default function App() {
 
   function handleSelectFavorite(savedRoute) {
     setRoute({
-      geojson: savedRoute.geojson,
-      distanceKm: savedRoute.distance,
-      durationMin: savedRoute.duree,
-      elevationGainM: savedRoute.denivele
+      geojson:        savedRoute.geojson,
+      distanceKm:     savedRoute.distance,
+      durationMin:    savedRoute.duree,
+      elevationGainM: savedRoute.denivele,
     });
-    setShowFavorites(false);
+    setShowFavSheet(false);
+    setActiveTab('map');
   }
 
   return (
     <div className="app">
-      <header>
-        <h1>ChronoPath</h1>
-        <div className="header-right">
-          {geoError && <span className="geo-warning">{geoError}</span>}
-          {user ? (
-            <button onClick={logout}>{user.email} · Déconnexion</button>
-          ) : (
-            <button onClick={() => setShowAuth(true)}>Connexion</button>
-          )}
-        </div>
-      </header>
 
-      <main>
-        <Panel
-          onGenerate={handleGenerate}
-          onSave={handleSave}
-          onShowFavorites={handleShowFavorites}
-          isLoggedIn={!!user}
-          loading={loading}
-          error={routeError}
-          route={route}
-        />
-        <div className="map-container">
-          <Map position={position} route={route} />
-        </div>
-      </main>
+      {/* Desktop top bar */}
+      <div className="desktop-topbar">
+        <span className="topbar-logo">
+          <span aria-hidden="true">🌿</span>
+          <span>ChronoPath</span>
+        </span>
+        {geoError && <span style={{ fontSize: '0.75rem', color: '#fbbf24' }}>{geoError}</span>}
+        <button className="topbar-btn ghost" onClick={handleShowFavorites}>♥ Favoris</button>
+        {user ? (
+          <button className="topbar-btn ghost" onClick={logout}>{user.email} · Déco</button>
+        ) : (
+          <button className="topbar-btn primary" onClick={() => setShowAuth(true)}>Connexion</button>
+        )}
+      </div>
 
-      {showFavorites && (
-        <div className="modal-overlay" onClick={() => setShowFavorites(false)}>
-          <div className="modal" onClick={e => e.stopPropagation()}>
-            <h2>Mes favoris</h2>
+      {/* Fullscreen map */}
+      <div className="map-wrapper">
+        <Map position={position} route={route} />
+      </div>
+
+      {/* Mobile logo pill (over map) */}
+      <div className="logo-pill" aria-label="ChronoPath">
+        <span>🌿</span>
+      </div>
+
+      {/* Mobile: floating card / Desktop: sidebar */}
+      <div className="sidebar">
+        <FloatingCard>
+          <Panel
+            onGenerate={handleGenerate}
+            onSave={handleSave}
+            onShowFavorites={handleShowFavorites}
+            isLoggedIn={!!user}
+            loading={loading}
+            error={routeError}
+            route={route}
+          />
+        </FloatingCard>
+      </div>
+
+      {/* Mobile tab bar */}
+      <TabBar activeTab={activeTab} onTabChange={handleTabChange} user={user} />
+
+      {/* Favorites bottom sheet */}
+      {showFavSheet && (
+        <div className="bottom-sheet-overlay" onClick={() => setShowFavSheet(false)}>
+          <div className="bottom-sheet" onClick={e => e.stopPropagation()}>
+            <div className="bottom-sheet-handle" />
+            <p className="bottom-sheet-title">Mes boucles</p>
             <FavoritesList
               routes={savedRoutes}
               onSelect={handleSelectFavorite}
               onDelete={handleDeleteRoute}
             />
-            <button onClick={() => setShowFavorites(false)}>Fermer</button>
           </div>
         </div>
       )}
 
+      {/* Auth modal */}
       {showAuth && <AuthModal onClose={() => setShowAuth(false)} onAuth={handleAuth} />}
+
     </div>
   );
 }
