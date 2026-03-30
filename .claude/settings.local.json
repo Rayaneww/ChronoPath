@@ -1,0 +1,20 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm --version)",
+      "Read(//c/Program Files/nodejs/**)",
+      "Read(//c/Users/Rayane/AppData/Roaming/nvm/**)",
+      "Read(//c/Program Files \\(x86\\)/**)",
+      "Read(//c/Users/Rayane/**)",
+      "Bash(powershell.exe -Command \"node --version; npm --version\")",
+      "Bash(cmd.exe /c \"node --version && npm --version\")",
+      "Bash(npm install:*)",
+      "Bash(npm show:*)",
+      "Bash(ls /c/Users/Rayane/Dev/ChronoPath/server/.env*)",
+      "Bash(npm test:*)",
+      "Bash(where mysql:*)",
+      "Read(//c/Program Files/**)",
+      "Bash(find '/c/Program Files \\(x86\\)' -name mysql.exe)"
+    ]
+  }
+}
