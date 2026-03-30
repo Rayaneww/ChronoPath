@@ -36,4 +36,30 @@ router.post(
   }
 );
 
+router.post(
+  '/login',
+  [
+    body('email').isEmail().normalizeEmail(),
+    body('password').notEmpty(),
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
+
+    const { email, password } = req.body;
+    try {
+      const [rows] = await pool.query('SELECT * FROM users WHERE email = ?', [email]);
+      const user = rows[0];
+      if (!user) return res.status(401).json({ error: 'Identifiants invalides' });
+
+      const match = await bcrypt.compare(password, user.password_hash);
+      if (!match) return res.status(401).json({ error: 'Identifiants invalides' });
+
+      res.json({ token: signToken(user.id), user: { id: user.id, email: user.email } });
+    } catch {
+      res.status(500).json({ error: 'Erreur serveur' });
+    }
+  }
+);
+
 module.exports = router;
